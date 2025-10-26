@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Shouldly" />
+    <PackageReference Include="Spectre.Verify.Extensions" />
+    <PackageReference Include="Verify.Xunit" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Spectre.Console.Cli.Testing\Spectre.Console.Cli.Testing.csproj" />
+    <ProjectReference Include="..\Spectre.Console.Cli\Spectre.Console.Cli.csproj" />
+  </ItemGroup>
+
+</Project>

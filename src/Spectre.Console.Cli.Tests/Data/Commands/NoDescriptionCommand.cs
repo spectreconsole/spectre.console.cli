@@ -1,0 +1,12 @@
+namespace Spectre.Console.Tests.Data;
+
+public sealed class NoDescriptionCommand : Command<EmptyCommandSettings>
+{
+    [CommandOption("-f|--foo <VALUE>")]
+    public int Foo { get; set; }
+
+    protected override int Execute(CommandContext context, EmptyCommandSettings settings, CancellationToken cancellationToken)
+    {
+        return 0;
+    }
+}

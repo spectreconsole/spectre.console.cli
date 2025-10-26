@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+      <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
+      <IsPackable>true</IsPackable>
+      <IsAotCompatible Condition="'$(TargetFramework)' != 'netstandard2.0'">false</IsAotCompatible>
+      <IsTrimmable>false</IsTrimmable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Spectre.Console.Cli\Spectre.Console.Cli.csproj" />
+    </ItemGroup>
+
+</Project>
