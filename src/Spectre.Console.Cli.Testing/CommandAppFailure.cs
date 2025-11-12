@@ -1,4 +1,4 @@
-namespace Spectre.Console.Testing;
+namespace Spectre.Console.Cli.Testing;
 
 /// <summary>
 /// Represents a <see cref="CommandApp"/> runtime failure.

@@ -1,4 +1,4 @@
-namespace Spectre.Console.Testing;
+namespace Spectre.Console.Cli.Testing;
 
 /// <summary>
 /// Represents the result of a completed <see cref="CommandApp"/> run.

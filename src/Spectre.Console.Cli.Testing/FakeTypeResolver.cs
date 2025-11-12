@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace Spectre.Console.Testing;
+namespace Spectre.Console.Cli.Testing;
 
 /// <summary>
 /// A fake type resolver suitable for testing.

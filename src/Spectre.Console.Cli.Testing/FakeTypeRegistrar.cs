@@ -1,4 +1,4 @@
-namespace Spectre.Console.Testing;
+namespace Spectre.Console.Cli.Testing;
 
 /// <summary>
 /// A fake type registrar suitable for testing.
@@ -27,26 +27,26 @@ public sealed class FakeTypeRegistrar : ITypeRegistrar
     /// <inheritdoc/>
     public void Register(Type service, Type implementation)
     {
-        if (!Registrations.ContainsKey(service))
+        if (Registrations.TryGetValue(service, out var registration))
         {
-            Registrations.Add(service, new List<Type> { implementation });
+            registration.Add(implementation);
         }
         else
         {
-            Registrations[service].Add(implementation);
+            Registrations.Add(service, [implementation]);
         }
     }
 
     /// <inheritdoc/>
     public void RegisterInstance(Type service, object implementation)
     {
-        if (!Instances.ContainsKey(service))
+        if (Instances.TryGetValue(service, out var instance))
         {
-            Instances.Add(service, new List<object> { implementation });
+            instance.Add(implementation);
         }
         else
         {
-            Instances[service].Add(implementation);
+            Instances.Add(service, [implementation]);
         }
     }
 
@@ -58,13 +58,13 @@ public sealed class FakeTypeRegistrar : ITypeRegistrar
             throw new ArgumentNullException(nameof(factory));
         }
 
-        if (!Instances.ContainsKey(service))
+        if (Instances.TryGetValue(service, out var instance))
         {
-            Instances.Add(service, new List<object> { factory() });
+            instance.Add(factory());
         }
         else
         {
-            Instances[service].Add(factory());
+            Instances.Add(service, [factory()]);
         }
     }
 

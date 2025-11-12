@@ -1,4 +1,4 @@
-namespace Spectre.Console.Testing;
+namespace Spectre.Console.Cli.Testing;
 
 /// <summary>
 /// A <see cref="ICommandInterceptor"/> that triggers a callback when invoked.

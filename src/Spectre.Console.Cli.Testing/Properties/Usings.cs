@@ -1,2 +1,1 @@
-global using Spectre.Console.Cli;
-global using Spectre.Console.Rendering;
+global using Spectre.Console.Testing;

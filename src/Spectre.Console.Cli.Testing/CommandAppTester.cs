@@ -1,4 +1,4 @@
-namespace Spectre.Console.Testing;
+namespace Spectre.Console.Cli.Testing;
 
 /// <summary>
 /// A <see cref="CommandApp"/> test harness.
