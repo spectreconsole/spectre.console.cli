@@ -15,10 +15,11 @@ Task("Clean")
 Task("Lint")
     .Does(context =>
 {
-    DotNetFormat("./src/Spectre.Console.Cli.slnx", new DotNetFormatSettings
-    {
-        VerifyNoChanges = true,
-    });
+    DotNetFormatStyle("./src/Spectre.Console.Cli.slnx",
+        new DotNetFormatSettings
+        {
+            VerifyNoChanges = true,
+        });
 });
 
 Task("Build")
