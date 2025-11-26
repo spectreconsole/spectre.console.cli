@@ -8,9 +8,9 @@
   * [Unit tests](#unit-tests)
 * [Contributing process](#contributing-process)
   * [Get buyoff or find open community issues or features](#get-buyoff-or-find-open-community-issues-or-features)
-  * [Set up your environment](#Set-up-your-environment)
+  * [Set up your environment](#set-up-your-environment)
   * [Prepare commits](#prepare-commits)
-  * [Submit pull request](#Submit-pull-request)
+  * [Submit pull request](#submit-pull-request)
   * [Respond to feedback on pull request](#respond-to-feedback-on-pull-request)
 * [Other general information](#other-general-information)
 * [Acknowledgement](#acknowledgement)
@@ -22,8 +22,8 @@ By contributing to Spectre.Console, you assert that:
 * The contribution is your own original work.
 * You have the right to assign the copyright for the work (it is not owned by your employer, or
   you have been given copyright assignment in writing).
-* You [license](https://github.com/spectreconsole/spectre.console/blob/main/LICENSE) the contribution under the terms applied to the rest of the Spectre.Console project.
-* You agree to follow the [code of conduct](https://github.com/spectreconsole/spectre.console/blob/main/CODE_OF_CONDUCT.md).
+* You [license](https://github.com/spectreconsole/spectre.console.cli/blob/main/LICENSE) the contribution under the terms applied to the rest of the Spectre.Console project.
+* You agree to follow the [code of conduct](https://github.com/spectreconsole/spectre.console.cli/blob/main/CODE_OF_CONDUCT.md).
 
 ## Definition of trivial contributions
 It's hard to define what is a trivial contribution. Sometimes even a 1 character change can be considered significant.
@@ -53,19 +53,19 @@ Any new code should also have reasonable unit test coverage.
 ## Contributing process
 ### Get buyoff or find open community issues or features
 
- * Through GitHub, or through the [GitHub discussions](https://github.com/spectreconsole/spectre.console/discussions) (preferred),
+ * Through GitHub, or through the [GitHub discussions](https://github.com/spectreconsole/spectre.console.cli/discussions) (preferred),
    you talk about a feature you would like to see (or a bug), and why it should be in Spectre.Console.
    * If approved through the GitHub discussions, ensure an accompanying GitHub issue is created with
      information and a link back to the discussion.
   * Once you get a nod from someone in the Spectre.Console Team, you can start on the feature.
   * Alternatively, if a feature is on the issues list with the
-   [good first issue](https://github.com/spectreconsole/spectre.console/labels/good%20first%20issue) label,
+   [good first issue](https://github.com/spectreconsole/spectre.console.cli/labels/good%20first%20issue) label,
    it is open for a community member (contributor) to patch. You should comment that you are signing up for it on
    the issue so someone else doesn't also sign up for the work.
 
 ### Set up your environment
 
- * You create, or update, a fork of `spectreconsole/spectre.console` under your GitHub account.
+ * You create, or update, a fork of `spectreconsole/spectre.console.cli` under your GitHub account.
  * From there you create a branch named specific to the feature.
  * In the branch you do work specific to the feature.
  * Please also observe the following:
@@ -96,7 +96,7 @@ Prerequisites:
 
 Submitting PR:
 
- * Once you feel it is ready, submit the pull request to the `spectreconsole/spectre.console` repository against the `main` branch
+ * Once you feel it is ready, submit the pull request to the `spectreconsole/spectre.console.cli` repository against the `main` branch
    unless specifically requested to submit it against another branch.
    * In the case of a larger change that is going to require more discussion,
      please submit a PR sooner. Waiting until you are ready may mean more changes than you are
@@ -129,13 +129,13 @@ the issue/open a new PR (referencing old one).
 Sometimes we may need you to rebase your commit against the latest code before we can review it further.
 If this happens, you can do the following:
 
- * `git fetch upstream` (upstream remote would be `spectreconsole/spectre.console`)
+ * `git fetch upstream` (upstream remote would be `spectreconsole/spectre.console.cli`)
  * `git checkout main`
  * `git rebase upstream/main`
  * `git checkout your-branch`
  * `git rebase main`
  * Fix any merge conflicts
- * `git push origin your-branch` (origin would be your GitHub repo or `your-github-username/spectre.console` in this case).
+ * `git push origin your-branch` (origin would be your GitHub repo or `your-github-username/spectre.console.cli` in this case).
    You may need to `git push origin your-branch --force` to get the commits pushed.
    This is generally acceptable with topic branches not in the mainstream repository.
 
