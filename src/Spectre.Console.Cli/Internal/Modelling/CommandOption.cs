@@ -7,13 +7,16 @@ internal sealed class CommandOption : CommandParameter, ICommandOption
     public string? ValueName { get; }
     public bool ValueIsOptional { get; }
     public bool IsShadowed { get; set; }
+    public bool IsDeprecated => DeprecationMessage != null;
+    public string? DeprecationMessage { get; }
 
     public CommandOption(
         Type parameterType, ParameterKind parameterKind, PropertyInfo property, string? description,
         TypeConverterAttribute? converter, PairDeconstructorAttribute? deconstructor,
         CommandOptionAttribute optionAttribute, ParameterValueProviderAttribute? valueProvider,
         IEnumerable<ParameterValidationAttribute> validators,
-        DefaultValueAttribute? defaultValue, bool valueIsOptional)
+        DefaultValueAttribute? defaultValue, bool valueIsOptional,
+        string? deprecationMessage)
         : base(parameterType, parameterKind, property, description, converter,
             defaultValue, deconstructor, valueProvider, validators,
             optionAttribute.IsRequired, optionAttribute.IsHidden)
@@ -22,6 +25,7 @@ internal sealed class CommandOption : CommandParameter, ICommandOption
         ShortNames = optionAttribute.ShortNames;
         ValueName = optionAttribute.ValueName;
         ValueIsOptional = valueIsOptional;
+        DeprecationMessage = deprecationMessage;
     }
 
     public string GetOptionName()

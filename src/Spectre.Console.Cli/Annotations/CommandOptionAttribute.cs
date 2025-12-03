@@ -41,11 +41,17 @@ public sealed class CommandOptionAttribute : Attribute
     public bool IsHidden { get; set; }
 
     /// <summary>
+    /// Gets the warning message displayed when this (deprecated) option is used.
+    /// </summary>
+    public string? DeprecationMessage { get; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="CommandOptionAttribute"/> class.
     /// </summary>
     /// <param name="template">The option template.</param>
     /// <param name="isRequired">Indicates whether the option is required or not.</param>
-    public CommandOptionAttribute(string template, bool isRequired = false)
+    /// <param name="deprecationMessage">The warning message that is displayed when this deprecated option is used.</param>
+    public CommandOptionAttribute(string template, bool isRequired = false, string? deprecationMessage = null)
     {
         if (template == null)
         {
@@ -61,6 +67,7 @@ public sealed class CommandOptionAttribute : Attribute
         ValueName = result.Value;
         ValueIsOptional = result.ValueIsOptional;
         IsRequired = isRequired;
+        DeprecationMessage = deprecationMessage;
     }
 
     internal bool IsMatch(string name)
