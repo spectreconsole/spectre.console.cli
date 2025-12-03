@@ -191,8 +191,7 @@ internal static class CommandModelBuilder
         return new CommandOption(property.PropertyType, kind,
             property, description?.Description, converter, deconstructor,
             attribute, valueProvider, validators, defaultValue,
-            attribute.ValueIsOptional,
-            attribute.DeprecationMessage);
+            attribute.ValueIsOptional);
     }
 
     private static CommandArgument BuildArgumentParameter(PropertyInfo property, CommandArgumentAttribute attribute)
