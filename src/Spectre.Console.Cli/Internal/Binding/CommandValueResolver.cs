@@ -65,9 +65,8 @@ internal static class CommandValueResolver
                     try
                     {
                         var prop = mapped.Parameter.Property;
-                        var propAttrs = prop.GetCustomAttributes(typeof(ObsoleteAttribute), false);
-                        if (propAttrs.Length > 0 && propAttrs[0] is ObsoleteAttribute obsoleteAttr &&
-                            !string.IsNullOrWhiteSpace(obsoleteAttr.Message))
+                        var obsoleteAttr = prop.GetCustomAttribute<ObsoleteAttribute>(false);
+                        if (obsoleteAttr is { Message: not null })
                         {
                             deprecationMessage = obsoleteAttr.Message;
                         }
