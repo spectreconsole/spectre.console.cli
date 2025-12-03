@@ -18,7 +18,8 @@ public sealed partial class CommandOptionAttributeTests
 
     private sealed class DeprecatedOptionSettings : CommandSettings
     {
-        [CommandOption("-d|--deprecated <VALUE>", true, "This option is deprecated and subject to removal.")]
+        [CommandOption("-d|--deprecated <VALUE>")]
+        [Obsolete("This option is deprecated and subject to removal.")]
         public string? Deprecated { get; set; }
     }
 
