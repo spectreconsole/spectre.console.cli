@@ -59,26 +59,39 @@ internal static class CommandValueResolver
             // Process mapped parameters.
             foreach (var mapped in tree.Mapped)
             {
-                if (mapped.Parameter is CommandOption commandOption && commandOption.IsDeprecated)
+                if (mapped.Parameter is CommandOption commandOption)
                 {
+                    string? deprecationMessage = null;
+                    try
+                    {
+                        var prop = mapped.Parameter.Property;
+                        var propAttrs = prop.GetCustomAttributes(typeof(ObsoleteAttribute), false);
+                        if (propAttrs.Length > 0 && propAttrs[0] is ObsoleteAttribute obsoleteAttr &&
+                            !string.IsNullOrWhiteSpace(obsoleteAttr.Message))
+                        {
+                            deprecationMessage = obsoleteAttr.Message;
+                        }
+                    }
+                    catch
+                    {
+                        // Just consume so we do not block binding
+                    }
+
+                    var isDeprecated = deprecationMessage != null;
                     var optionName = commandOption.LongNames.Count > 0 ? commandOption.LongNames[0]
                         : commandOption.ShortNames.Count > 0 ? commandOption.ShortNames[0]
                         : commandOption.GetOptionName();
-                    if (!warnedDeprecatedOptions.Contains(optionName))
+                    if (isDeprecated && warnedDeprecatedOptions.Add(optionName))
                     {
-                        warnedDeprecatedOptions.Add(optionName);
                         try
                         {
                             if (resolver.Resolve(typeof(IAnsiConsole)) is IAnsiConsole console)
                             {
-                                var msg = commandOption.DeprecationMessage ?? $"Option '{optionName}' is deprecated.";
+                                var msg = deprecationMessage ?? $"Option '{optionName}' is deprecated.";
                                 console.MarkupLine($"[yellow]Warning: {msg.EscapeMarkup()}[/]");
                             }
                         }
-                        catch
-                        {
-                            // Deprecation is best-effort
-                        }
+                        catch { }
                     }
                 }
 
