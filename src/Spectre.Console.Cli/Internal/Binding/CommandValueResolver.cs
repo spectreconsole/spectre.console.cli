@@ -7,6 +7,9 @@ internal static class CommandValueResolver
         var lookup = new CommandValueLookup();
         var binder = new CommandValueBinder(lookup);
 
+        // Track which deprecated options we've warned about to avoid spamming the console.
+        var warnedDeprecatedOptions = new HashSet<string>(StringComparer.Ordinal);
+
         CommandValidator.ValidateRequiredParameters(tree);
 
         while (tree != null)
@@ -56,6 +59,29 @@ internal static class CommandValueResolver
             // Process mapped parameters.
             foreach (var mapped in tree.Mapped)
             {
+                if (mapped.Parameter is CommandOption commandOption && commandOption.IsDeprecated)
+                {
+                    var optionName = commandOption.LongNames.Count > 0 ? commandOption.LongNames[0]
+                        : commandOption.ShortNames.Count > 0 ? commandOption.ShortNames[0]
+                        : commandOption.GetOptionName();
+                    if (!warnedDeprecatedOptions.Contains(optionName))
+                    {
+                        warnedDeprecatedOptions.Add(optionName);
+                        try
+                        {
+                            if (resolver.Resolve(typeof(IAnsiConsole)) is IAnsiConsole console)
+                            {
+                                var msg = commandOption.DeprecationMessage ?? $"Option '{optionName}' is deprecated.";
+                                console.MarkupLine($"[yellow]Warning: {msg.EscapeMarkup()}[/]");
+                            }
+                        }
+                        catch
+                        {
+                            // Deprecation is best-effort
+                        }
+                    }
+                }
+
                 if (mapped.Parameter.WantRawValue)
                 {
                     // Just try to assign the raw value.
