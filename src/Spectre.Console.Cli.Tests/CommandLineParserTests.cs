@@ -310,7 +310,25 @@ public sealed class CommandLineParserTests
     }
 
     [Fact]
-    public void Should_Respect_Command_Case_Sensitivity()
+    public void Should_Parse_Command_When_CaseInsensitive()
+    {
+        // Given
+        var (model, settings) = BuildModel(config =>
+        {
+            config.AddCommand<DogCommand>("dog");
+        });
+        settings.StrictParsing = true;
+        settings.CaseSensitivity = CaseSensitivity.None;
+
+        // When
+        var result = CommandLineParser.Parse(model, settings, ["DOG", "12", "4"]);
+
+        // Then
+        result.CommandType.ShouldBe(typeof(DogCommand));
+    }
+
+    [Fact]
+    public void Should_Throw_When_Commands_Are_Case_Sensitive()
     {
         // Given
         var (model, settings) = BuildModel(config =>
@@ -319,10 +337,9 @@ public sealed class CommandLineParserTests
         });
         settings.StrictParsing = true;
 
-        settings.CaseSensitivity = CaseSensitivity.None;
-        CommandLineParser.Parse(model, settings, ["DOG", "12", "4"]).CommandType.ShouldBe(typeof(DogCommand));
-
         settings.CaseSensitivity = CaseSensitivity.Commands;
+
+        // When / Then
         Should.Throw<CommandParseException>(() =>
             CommandLineParser.Parse(model, settings, ["DOG", "12", "4"]));
     }
