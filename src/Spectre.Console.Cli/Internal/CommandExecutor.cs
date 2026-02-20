@@ -24,11 +24,16 @@ internal sealed class CommandExecutor
         var arguments = args.ToSafeReadOnlyList();
 
         _registrar.RegisterInstance(typeof(IConfiguration), configuration);
+        _registrar.RegisterInstance(typeof(ICommandAppSettings), configuration.Settings);
         _registrar.RegisterLazy(typeof(IAnsiConsole), () => configuration.Settings.Console.GetConsole());
+
+        var resolverAccessor = new TypeResolverAccessor();
+        _registrar.RegisterInstance(typeof(ITypeResolverAccessor), resolverAccessor);
 
         // Create the command model.
         var model = CommandModelBuilder.Build(configuration);
         _registrar.RegisterInstance(typeof(CommandModel), model);
+        _registrar.RegisterInstance(typeof(Spectre.Console.Cli.Help.ICommandModel), model);
         _registrar.RegisterDependencies(model);
 
         // Got at least one argument?
@@ -87,45 +92,53 @@ internal sealed class CommandExecutor
         // Create the resolver.
         using (var resolver = new TypeResolverAdapter(_registrar.Build()))
         {
-            // Get the registered help provider, falling back to the default provider
-            // if no custom implementations have been registered.
-            var helpProviders = resolver.Resolve(typeof(IEnumerable<IHelpProvider>)) as IEnumerable<IHelpProvider>;
-            var helpProvider = helpProviders?.LastOrDefault() ?? new HelpProvider(configuration.Settings);
-
-            // Currently the root?
-            if (parsedResult.Tree == null)
+            resolverAccessor.Resolver = resolver;
+            try
             {
-                // Display help.
-                configuration.Settings.Console.SafeRender(helpProvider.Write(model, null));
-                return 0;
-            }
+                // Get the registered help provider, falling back to the default provider
+                // if no custom implementations have been registered.
+                var helpProviders = resolver.Resolve(typeof(IEnumerable<IHelpProvider>)) as IEnumerable<IHelpProvider>;
+                var helpProvider = helpProviders?.LastOrDefault() ?? new HelpProvider(configuration.Settings);
 
-            // Get the command to execute.
-            var leaf = parsedResult.Tree.GetLeafCommand();
-            if (leaf.Command.IsBranch || leaf.ShowHelp)
+                // Currently the root?
+                if (parsedResult.Tree == null)
+                {
+                    // Display help.
+                    configuration.Settings.Console.SafeRender(helpProvider.Write(model, null));
+                    return 0;
+                }
+
+                // Get the command to execute.
+                var leaf = parsedResult.Tree.GetLeafCommand();
+                if (leaf.Command.IsBranch || leaf.ShowHelp)
+                {
+                    // Branches can't be executed. Show help.
+                    configuration.Settings.Console.SafeRender(helpProvider.Write(model, leaf.Command));
+                    return leaf.ShowHelp ? 0 : 1;
+                }
+
+                // Is this the default and is it called without arguments when there are required arguments?
+                if (leaf.Command.IsDefaultCommand && arguments.Count == 0 && leaf.Command.Parameters.Any(p => p.IsRequired))
+                {
+                    // Display help for default command.
+                    configuration.Settings.Console.SafeRender(helpProvider.Write(model, leaf.Command));
+                    return 1;
+                }
+
+                // Create the content.
+                var context = new CommandContext(
+                    arguments,
+                    parsedResult.Remaining,
+                    leaf.Command.Name,
+                    leaf.Command.Data);
+
+                // Execute the command tree.
+                return await ExecuteAsync(leaf, parsedResult.Tree, context, resolver, configuration, cancellationToken).ConfigureAwait(false);
+            }
+            finally
             {
-                // Branches can't be executed. Show help.
-                configuration.Settings.Console.SafeRender(helpProvider.Write(model, leaf.Command));
-                return leaf.ShowHelp ? 0 : 1;
+                resolverAccessor.Resolver = null;
             }
-
-            // Is this the default and is it called without arguments when there are required arguments?
-            if (leaf.Command.IsDefaultCommand && arguments.Count == 0 && leaf.Command.Parameters.Any(p => p.IsRequired))
-            {
-                // Display help for default command.
-                configuration.Settings.Console.SafeRender(helpProvider.Write(model, leaf.Command));
-                return 1;
-            }
-
-            // Create the content.
-            var context = new CommandContext(
-                arguments,
-                parsedResult.Remaining,
-                leaf.Command.Name,
-                leaf.Command.Data);
-
-            // Execute the command tree.
-            return await ExecuteAsync(leaf, parsedResult.Tree, context, resolver, configuration, cancellationToken).ConfigureAwait(false);
         }
     }
 
