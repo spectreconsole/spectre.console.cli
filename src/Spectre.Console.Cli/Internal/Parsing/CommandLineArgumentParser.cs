@@ -61,7 +61,7 @@ internal static class CommandLineArgumentParser
             {
                 // Failed to parse having inserted the default command between each argument.
                 // Repeat the parsing of the original arguments to throw the correct exception.
-                InternalParse(model, settings, args);
+                _ = InternalParse(model, settings, args);
             }
         }
 

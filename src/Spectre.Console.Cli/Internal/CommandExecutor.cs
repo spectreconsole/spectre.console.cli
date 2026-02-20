@@ -90,9 +90,10 @@ internal sealed class CommandExecutor
         // Create the resolver.
         using (var resolver = new TypeResolverAdapter(_registrar.Build()))
         {
-            resolverAccessor.Resolver = resolver;
             try
             {
+                resolverAccessor.Resolver = resolver;
+
                 // Get the registered help provider, falling back to the default provider
                 // if no custom implementations have been registered.
                 var helpProviders = resolver.Resolve(typeof(IEnumerable<IHelpProvider>)) as IEnumerable<IHelpProvider>;

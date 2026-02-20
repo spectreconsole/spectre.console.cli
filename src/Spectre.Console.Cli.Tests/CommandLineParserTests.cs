@@ -345,7 +345,7 @@ public sealed class CommandLineParserTests
     }
 
     [Fact]
-    public void Should_Respect_Long_Option_Case_Sensitivity()
+    public void Should_Throw_When_LongOption_CaseSensitive()
     {
         // Given
         var (model, settings) = BuildModel(config =>
@@ -356,8 +356,20 @@ public sealed class CommandLineParserTests
 
         // Long options are case-sensitive by default.
         settings.CaseSensitivity = CaseSensitivity.All;
+
         Should.Throw<CommandParseException>(() =>
             CommandLineParser.Parse(model, settings, ["dog", "12", "4", "--NAME", "Rufus"]));
+    }
+
+    [Fact]
+    public void Should_Map_LongOption_When_CaseInsensitive()
+    {
+        // Given
+        var (model, settings) = BuildModel(config =>
+        {
+            config.AddCommand<DogCommand>("dog");
+        });
+        settings.StrictParsing = true;
 
         // Allow long options to be case-insensitive.
         settings.CaseSensitivity = CaseSensitivity.Commands;
