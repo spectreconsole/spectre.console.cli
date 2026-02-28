@@ -379,5 +379,54 @@ public sealed partial class CommandAppTests
                 dog.Name.ShouldBe("Rufus");
             });
         }
+
+        [Fact]
+        public void Should_Bind_Option_Inherited_From_Branch_Settings()
+        {
+            // Given
+            var app = new CommandAppTester();
+            app.Configure(config =>
+            {
+                config.UseStrictParsing();
+                config.PropagateExceptions();
+                config.AddBranch<BranchInheritanceSettings>("branch", branch =>
+                {
+                    branch.AddCommand<GenericCommand<BranchInheritedCommandSettings>>("command");
+                });
+            });
+
+            // When
+            var result = app.Run("branch", "command", "--my-value", "abc");
+
+            // Then
+            result.ExitCode.ShouldBe(0);
+            result.Settings.ShouldBeOfType<BranchInheritedCommandSettings>().And(settings =>
+            {
+                settings.MyValue.ShouldBe("abc");
+            });
+        }
+
+        [Fact]
+        public void Should_Validate_Examples_When_Option_Is_Inherited_From_Branch_Settings()
+        {
+            // Given
+            var app = new CommandApp();
+            app.Configure(config =>
+            {
+                config.ValidateExamples();
+                config.PropagateExceptions();
+                config.AddBranch<BranchInheritanceSettings>("branch", branch =>
+                {
+                    branch.AddCommand<GenericCommand<BranchInheritedCommandSettings>>("command")
+                        .WithExample("branch", "command", "--my-value", "abc");
+                });
+            });
+
+            // When
+            var result = Record.Exception(() => app.Run(new[] { "branch", "command" }));
+
+            // Then
+            result.ShouldBeNull();
+        }
     }
 }
