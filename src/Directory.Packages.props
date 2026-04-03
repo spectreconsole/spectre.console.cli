@@ -3,19 +3,19 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.10" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
-    <PackageVersion Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" Version="8.0.0" />
-    <PackageVersion Include="MinVer" PrivateAssets="All" Version="6.0.0" />
-    <PackageVersion Include="OpenCli.Sources" Version="0.5.0" />
-    <PackageVersion Include="Polyfill" Version="8.9.0" />
-    <PackageVersion Include="Roslynator.Analyzers" PrivateAssets="All" Version="4.14.1" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.5" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" Version="10.0.201" />
+    <PackageVersion Include="MinVer" PrivateAssets="All" Version="7.0.0" />
+    <PackageVersion Include="OpenCli.Sources" Version="0.6.0" />
+    <PackageVersion Include="Polyfill" Version="9.24.0" />
+    <PackageVersion Include="Roslynator.Analyzers" PrivateAssets="All" Version="4.15.0" />
     <PackageVersion Include="Shouldly" Version="4.3.0" />
-    <PackageVersion Include="Spectre.Console" Version="0.54.0" />
-    <PackageVersion Include="Spectre.Console.Testing" Version="0.54.0" />
+    <PackageVersion Include="Spectre.Console" Version="0.55.0" />
+    <PackageVersion Include="Spectre.Console.Testing" Version="0.55.0" />
     <PackageVersion Include="Spectre.Verify.Extensions" Version="28.16.0" />
     <PackageVersion Include="System.Memory" Version="4.6.3" />
-    <PackageVersion Include="Verify.Xunit" Version="31.0.1" />
+    <PackageVersion Include="Verify.Xunit" Version="31.12.5" />
     <PackageVersion Include="Wcwidth.Sources" Version="3.0.0" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5">
