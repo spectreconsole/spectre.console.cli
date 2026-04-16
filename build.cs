@@ -24,7 +24,6 @@ Task("Lint")
 
 Task("Build")
     .IsDependentOn("Clean")
-    .IsDependentOn("Lint")
     .Does(context =>
 {
     DotNetBuild("./src/Spectre.Console.Cli.slnx", new DotNetBuildSettings
