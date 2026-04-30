@@ -36,11 +36,23 @@ internal static class CommandTreeExtensions
 
     public static CommandOption? FindOption(this CommandTree tree, string name, bool longOption, CaseSensitivity sensitivity)
     {
-        return tree.Command.Parameters
-            .OfType<CommandOption>()
-            .FirstOrDefault(o => longOption
-                ? o.LongNames.Contains(name, sensitivity.GetStringComparer(CommandPart.LongOption))
-                : o.ShortNames.Contains(name, StringComparer.Ordinal));
+        var node = tree;
+        while (node != null)
+        {
+            var option = node.Command.Parameters
+                .OfType<CommandOption>()
+                .FirstOrDefault(o => longOption
+                    ? o.LongNames.Contains(name, sensitivity.GetStringComparer(CommandPart.LongOption))
+                    : o.ShortNames.Contains(name, StringComparer.Ordinal));
+            if (option != null)
+            {
+                return option;
+            }
+
+            node = node.Parent;
+        }
+
+        return null;
     }
 
     public static bool IsOptionMappedWithParent(this CommandTree tree, string name, bool longOption)
