@@ -52,6 +52,13 @@ public sealed partial class CommandAppTests
             public IReadOnlyDictionary<string, string>? Values { get; set; }
         }
 
+        public sealed class DefaultValuesSettings : CommandSettings
+        {
+            [CommandOption("--var <VALUE>")]
+            [DefaultValue(new[] { "Monday=1", "Tuesday=2" })]
+            public IReadOnlyDictionary<DayOfWeek, int>? Values { get; set; }
+        }
+
         public sealed class StringIntDeconstructor : PairDeconstructor<string, string>
         {
             protected override (string Key, string Value) Deconstruct(string? value)
@@ -310,6 +317,31 @@ public sealed partial class CommandAppTests
                 pair.Values.Count.ShouldBe(2);
                 pair.Values["foo"].ShouldBe("bar");
                 pair.Values["baz"].ShouldBe("qux");
+            });
+        }
+
+        [Fact]
+        public void Should_Map_Default_Values()
+        {
+            // Given
+            var app = new CommandAppTester();
+            app.SetDefaultCommand<GenericCommand<DefaultValuesSettings>>();
+            app.Configure(config =>
+            {
+                config.PropagateExceptions();
+            });
+
+            // When
+            var result = app.Run();
+
+            // Then
+            result.ExitCode.ShouldBe(0);
+            result.Settings.ShouldBeOfType<DefaultValuesSettings>().And(pair =>
+            {
+                pair.Values.ShouldNotBeNull();
+                pair.Values.Count.ShouldBe(2);
+                pair.Values[DayOfWeek.Monday].ShouldBe(1);
+                pair.Values[DayOfWeek.Tuesday].ShouldBe(2);
             });
         }
     }
