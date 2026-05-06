@@ -21,7 +21,7 @@ public sealed partial class CommandAppTests
             // Then
             result.ShouldBeOfType<CommandRuntimeException>()
                 .And(ex =>
-                    ex.Message.ShouldBe("Command 'test' is missing required argument 'foo'."));
+                    ex.Message.ShouldBe("Command 'test' is missing required option 'foo'."));
         }
     }
 }

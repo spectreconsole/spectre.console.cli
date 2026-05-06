@@ -44,7 +44,7 @@ public class CommandRuntimeException : CommandAppException
             return new CommandRuntimeException($"Missing required option '{option.GetOptionName()}'.");
         }
 
-        return new CommandRuntimeException($"Command '{node.Command.Name}' is missing required argument '{option.GetOptionName()}'.");
+        return new CommandRuntimeException($"Command '{node.Command.Name}' is missing required option '{option.GetOptionName()}'.");
     }
 
     internal static CommandRuntimeException NoConverterFound(CommandParameter parameter)
