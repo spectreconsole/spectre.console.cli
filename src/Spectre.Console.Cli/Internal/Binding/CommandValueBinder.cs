@@ -54,10 +54,13 @@ internal sealed class CommandValueBinder
         }
 
         // Deconstruct and add to multimap.
-        var pair = deconstructor.Deconstruct(resolver, genericTypes[0], genericTypes[1], value as string);
-        if (pair.Key != null)
+        foreach (var text in value as IEnumerable<string?> ?? [ value as string ])
         {
-            multimap.Add(pair);
+            var pair = deconstructor.Deconstruct(resolver, genericTypes[0], genericTypes[1], text);
+            if (pair.Key != null)
+            {
+                multimap.Add(pair);
+            }
         }
 
         return multimap;
