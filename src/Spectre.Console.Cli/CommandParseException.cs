@@ -110,7 +110,7 @@ public sealed class CommandParseException : CommandRuntimeException
 
     internal static CommandParseException ValueIsNotInValidFormat(string value)
     {
-        var text = $"[red]Error:[/] The value '[white]{value}[/]' is not in a correct format";
+        var text = $"[red]Error:[/] The value '[white]{value}[/]' is not in a correct format{Environment.NewLine}";
         return new CommandParseException("Could not parse value", new Markup(text));
     }
 
