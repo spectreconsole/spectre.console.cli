@@ -9,7 +9,7 @@ public class GreeterCommand : Command<OptionalArgumentWithDefaultValueSettings>
         _console = console;
     }
 
-    protected override int Execute(CommandContext context, OptionalArgumentWithDefaultValueSettings settings, CancellationToken cancellationToken)
+    public override int Execute(CommandContext context, OptionalArgumentWithDefaultValueSettings settings, CancellationToken cancellationToken)
     {
         _console.WriteLine(settings.Greeting ?? string.Empty);
         return 0;

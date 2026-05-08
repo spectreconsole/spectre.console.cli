@@ -11,7 +11,7 @@ internal sealed class VersionCommand : Command, IBuiltInCommand
         _writer = configuration.Settings.Console.GetConsole();
     }
 
-    protected override int Execute(CommandContext context, CancellationToken cancellationToken)
+    public override int Execute(CommandContext context, CancellationToken cancellationToken)
     {
         _writer.MarkupLine(
             "[yellow]Spectre.Console.Cli[/] version [aqua]{0}[/]",
