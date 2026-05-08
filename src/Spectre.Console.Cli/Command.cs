@@ -12,7 +12,7 @@ public abstract class Command : ICommand<EmptyCommandSettings>
     /// <param name="context">The command context.</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/> that can be used to abort the command.</param>
     /// <returns>An integer indicating whether the command executed successfully.</returns>
-    protected abstract int Execute(CommandContext context, CancellationToken cancellationToken);
+    public abstract int Execute(CommandContext context, CancellationToken cancellationToken);
 
     /// <inheritdoc/>
     Task<int> ICommand<EmptyCommandSettings>.ExecuteAsync(CommandContext context, EmptyCommandSettings settings, CancellationToken cancellationToken)

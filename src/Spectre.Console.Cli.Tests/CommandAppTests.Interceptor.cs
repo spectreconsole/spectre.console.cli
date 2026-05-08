@@ -10,7 +10,7 @@ public sealed partial class CommandAppTests
             {
             }
 
-            protected override int Execute(CommandContext context, Settings settings, CancellationToken cancellationToken)
+            public override int Execute(CommandContext context, Settings settings, CancellationToken cancellationToken)
             {
                 return 0;
             }

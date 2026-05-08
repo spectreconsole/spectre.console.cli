@@ -13,7 +13,7 @@ internal sealed class XmlDocCommand : Command, IBuiltInCommand
         _writer = configuration.Settings.Console.GetConsole();
     }
 
-    protected override int Execute(CommandContext context, CancellationToken cancellationToken)
+    public override int Execute(CommandContext context, CancellationToken cancellationToken)
     {
         _writer.Write(Serialize(_model), Style.Plain);
         return 0;
