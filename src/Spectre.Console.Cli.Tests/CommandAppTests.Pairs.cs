@@ -192,7 +192,7 @@ public sealed partial class CommandAppTests
             string input, string expected)
         {
             // Given
-            var app = new CommandAppTester();
+            var app = new CommandAppTester { TestSettings = { TrimConsoleOutput = false } };
             app.SetDefaultCommand<GenericCommand<DefaultPairDeconstructorSettings>>();
 
             // When
@@ -203,7 +203,7 @@ public sealed partial class CommandAppTests
 
             // Then
             result.ExitCode.ShouldBe(-1);
-            result.Output.ShouldBe(expected);
+            result.Output.ShouldBe(expected + Environment.NewLine);
         }
 
         [Fact]
