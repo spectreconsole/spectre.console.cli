@@ -19,7 +19,7 @@ public sealed partial class CommandAppTests
                     _dep = dep;
                 }
 
-                protected override int Execute(CommandContext context, CustomInheritedCommandSettings settings, CancellationToken cancellationToken)
+                public override int Execute(CommandContext context, CustomInheritedCommandSettings settings, CancellationToken cancellationToken)
                 {
                     return _dep.GetExitCode();
                 }

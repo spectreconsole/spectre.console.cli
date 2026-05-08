@@ -9,7 +9,7 @@ public sealed class AsynchronousCommand : AsyncCommand<AsynchronousCommandSettin
         _console = console;
     }
 
-    protected override async Task<int> ExecuteAsync(CommandContext context, AsynchronousCommandSettings settings, CancellationToken cancellationToken)
+    public override async Task<int> ExecuteAsync(CommandContext context, AsynchronousCommandSettings settings, CancellationToken cancellationToken)
     {
         // Simulate a long running asynchronous task
         await Task.Delay(200, cancellationToken);
