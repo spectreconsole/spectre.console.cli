@@ -4,7 +4,7 @@ namespace Spectre.Console.Cli;
 /// Represents a configurator for specific settings.
 /// </summary>
 /// <typeparam name="TSettings">The command setting type.</typeparam>
-public interface IConfigurator<in TSettings>
+public interface IConfigurator<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] in TSettings>
     where TSettings : CommandSettings
 {
     /// <summary>
@@ -44,7 +44,7 @@ public interface IConfigurator<in TSettings>
     /// <typeparam name="TCommand">The command type.</typeparam>
     /// <param name="name">The name of the command.</param>
     /// <returns>A command configurator that can be used to configure the command further.</returns>
-    ICommandConfigurator AddCommand<TCommand>(string name)
+    ICommandConfigurator AddCommand<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TCommand>(string name)
         where TCommand : class, ICommandLimiter<TSettings>;
 
     /// <summary>
