@@ -15,17 +15,23 @@ internal sealed class OpenCliGeneratorCommand : Command, IBuiltInCommand
 
     public override int Execute(CommandContext context, CancellationToken cancellationToken)
     {
+        var applicationName = ((ICommandModel)_model).ApplicationName;
+
         var document = new OpenCliDocument
         {
             OpenCli = "0.1-draft",
+            Command = new OpenCliCommand
+            {
+                Name = applicationName,
+                Commands = CreateCommands(_model.Commands),
+                Arguments = CreateArguments(_model.DefaultCommand?.GetArguments()),
+                Options = CreateOptions(_model.DefaultCommand?.GetOptions()),
+            },
             Info = new OpenCliInfo
             {
-                Title = ((ICommandModel)_model).ApplicationName,
+                Title = applicationName,
                 Version = _model.ApplicationVersion ?? "1.0",
             },
-            Commands = CreateCommands(_model.Commands),
-            Arguments = CreateArguments(_model.DefaultCommand?.GetArguments()),
-            Options = CreateOptions(_model.DefaultCommand?.GetOptions()),
         };
 
         var writer = _configuration.Settings.Console.GetConsole();

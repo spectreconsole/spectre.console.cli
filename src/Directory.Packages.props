@@ -7,7 +7,7 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" Version="10.0.401" />
     <PackageVersion Include="MinVer" PrivateAssets="All" Version="8.0.0" />
-    <PackageVersion Include="OpenCli.Sources" Version="0.8.0" />
+    <PackageVersion Include="OpenCli.Sources" Version="0.9.0" />
     <PackageVersion Include="Polyfill" Version="11.4.1" />
     <PackageVersion Include="Roslynator.Analyzers" PrivateAssets="All" Version="5.0.0" />
     <PackageVersion Include="Shouldly" Version="4.3.0" />
