@@ -135,6 +135,9 @@
   <data name="Examples" xml:space="preserve">
     <value>例</value>
   </data>
+  <data name="ExitCodes" xml:space="preserve">
+    <value>終了コード</value>
+  </data>
   <data name="Options" xml:space="preserve">
     <value>オプション</value>
   </data>

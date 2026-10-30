@@ -11,6 +11,15 @@ public interface ICommandContainer
     IReadOnlyList<string[]> Examples { get; }
 
     /// <summary>
+    /// Gets the exit codes defined on the container.
+    /// </summary>
+    /// <remarks>
+    /// For a command model this is the set of globally defined exit codes.
+    /// For a command this is the set of exit codes defined on that command.
+    /// </remarks>
+    IReadOnlyDictionary<int, string> ExitCodes { get; }
+
+    /// <summary>
     /// Gets all commands in the container.
     /// </summary>
     IReadOnlyList<ICommandInfo> Commands { get; }

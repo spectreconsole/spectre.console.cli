@@ -21,6 +21,11 @@ public sealed class HelpProviderStyle
     public ExampleStyle? Examples { get; set; }
 
     /// <summary>
+    /// Gets or sets the style for documenting exit codes.
+    /// </summary>
+    public ExitCodeStyle? ExitCodes { get; set; }
+
+    /// <summary>
     /// Gets or sets the style for specifying arguments in a command.
     /// </summary>
     public ArgumentStyle? Arguments { get; set; }
@@ -58,6 +63,11 @@ public sealed class HelpProviderStyle
             {
                 Header = "yellow",
                 Arguments = "grey",
+            },
+            ExitCodes = new ExitCodeStyle()
+            {
+                Header = "yellow",
+                Code = "silver",
             },
             Arguments = new ArgumentStyle()
             {
@@ -221,4 +231,20 @@ public sealed class OptionStyle
     /// Gets or sets the style for optional options.
     /// </summary>
     public Style? OptionalOptionValue { get; set; }
+}
+
+/// <summary>
+/// Defines styles for documenting exit codes.
+/// </summary>
+public sealed class ExitCodeStyle
+{
+    /// <summary>
+    /// Gets or sets the style for the header in the exit codes section.
+    /// </summary>
+    public Style? Header { get; set; }
+
+    /// <summary>
+    /// Gets or sets the style for the exit code values.
+    /// </summary>
+    public Style? Code { get; set; }
 }

@@ -24,4 +24,9 @@ internal interface IConfiguration
     /// Gets all examples for the configuration.
     /// </summary>
     IList<string[]> Examples { get; }
+
+    /// <summary>
+    /// Gets all globally defined exit codes for the configuration.
+    /// </summary>
+    IReadOnlyDictionary<int, string> ExitCodes { get; }
 }

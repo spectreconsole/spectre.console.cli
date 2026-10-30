@@ -69,4 +69,22 @@ public sealed class CommandApp<TDefaultCommand> : ICommandApp
         _defaultCommandConfigurator.WithData(data);
         return this;
     }
+
+    /// <summary>
+    /// Adds an exit code that can be returned by the default command.
+    /// </summary>
+    /// <param name="exitCode">The exit code.</param>
+    /// <param name="description">The description of the exit code.</param>
+    /// <returns>The same <see cref="CommandApp{TDefaultCommand}"/> instance so that multiple calls can be chained.</returns>
+    /// <remarks>
+    /// This documents the exit code in help output. It does not validate the value returned by the default command.
+    /// Descriptions are trimmed before being stored.
+    /// Help combines global and default command exit codes; the default command's description
+    /// takes precedence for duplicate codes.
+    /// </remarks>
+    public CommandApp<TDefaultCommand> WithExitCode(int exitCode, string description)
+    {
+        _defaultCommandConfigurator.WithExitCode(exitCode, description);
+        return this;
+    }
 }

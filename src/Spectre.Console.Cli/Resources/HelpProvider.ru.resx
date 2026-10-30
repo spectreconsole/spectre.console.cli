@@ -135,6 +135,9 @@
   <data name="Examples" xml:space="preserve">
     <value>ПРИМЕРЫ</value>
   </data>
+  <data name="ExitCodes" xml:space="preserve">
+    <value>КОДЫ ВЫХОДА</value>
+  </data>
   <data name="Options" xml:space="preserve">
     <value>ОПЦИИ</value>
   </data>

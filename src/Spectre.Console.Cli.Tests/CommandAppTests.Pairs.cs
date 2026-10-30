@@ -203,7 +203,7 @@ public sealed partial class CommandAppTests
 
             // Then
             result.ExitCode.ShouldBe(-1);
-            result.Output.ShouldBe(expected + Environment.NewLine);
+            result.Output.ReplaceLineEndings().ShouldBe(expected + Environment.NewLine);
         }
 
         [Fact]

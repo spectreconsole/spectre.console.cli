@@ -135,6 +135,9 @@
   <data name="Examples" xml:space="preserve">
     <value>예시</value>
   </data>
+  <data name="ExitCodes" xml:space="preserve">
+    <value>종료 코드</value>
+  </data>
   <data name="Options" xml:space="preserve">
     <value>옵션</value>
   </data>

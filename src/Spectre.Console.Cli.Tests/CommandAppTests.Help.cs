@@ -968,6 +968,149 @@ public sealed partial class CommandAppTests
         }
 
         [Fact]
+        [Expectation("Root_ExitCodes")]
+        public Task Should_Output_Global_Exit_Codes_On_Root()
+        {
+            // Given
+            var fixture = new CommandAppTester();
+            fixture.Configure(configurator =>
+            {
+                configurator.SetApplicationName("myapp")
+                    .AddExitCode(0, "Command completed successfully")
+                    .AddExitCode(1, "An error occurred while executing the command")
+                    .AddExitCode(2, "Invalid command line arguments were provided");
+
+                configurator.AddCommand<DogCommand>("dog");
+            });
+
+            // When
+            var result = fixture.Run("--help");
+
+            // Then
+            return Verifier.Verify(result.Output);
+        }
+
+        [Fact]
+        [Expectation("Command_ExitCodes")]
+        public Task Should_Output_Global_And_Command_Exit_Codes()
+        {
+            // Given
+            var fixture = new CommandAppTester();
+            fixture.Configure(configurator =>
+            {
+                configurator.SetApplicationName("myapp")
+                    .AddExitCode(0, "Command completed successfully")
+                    .AddExitCode(1, "An error occurred while executing the command")
+                    .AddExitCode(2, "Invalid command line arguments were provided");
+
+                configurator.AddCommand<DogCommand>("dog")
+                    .WithExitCode(3, "Dog validation failed");
+            });
+
+            // When
+            var result = fixture.Run("dog", "--help");
+
+            // Then
+            return Verifier.Verify(result.Output);
+        }
+
+        [Fact]
+        [Expectation("Command_ExitCodes_Override")]
+        public Task Should_Let_Command_Exit_Code_Override_Global_Exit_Code()
+        {
+            // Given
+            var fixture = new CommandAppTester();
+            fixture.Configure(configurator =>
+            {
+                configurator.SetApplicationName("myapp")
+                    .AddExitCode(1, "An error occurred while executing the command");
+
+                configurator.AddCommand<DogCommand>("dog")
+                    .WithExitCode(1, "Dog validation failed");
+            });
+
+            // When
+            var result = fixture.Run("dog", "--help");
+
+            // Then
+            return Verifier.Verify(result.Output);
+        }
+
+        [Fact]
+        [Expectation("Default_ExitCodes")]
+        public Task Should_Output_Global_And_Default_Command_Exit_Codes()
+        {
+            // Given
+            var console = new TestConsole().Width(int.MaxValue);
+            var app = new CommandApp();
+            app.SetDefaultCommand<DogCommand>()
+                .WithExitCode(2, "Dog validation failed");
+            app.Configure(configurator =>
+            {
+                configurator.SetApplicationName("myapp")
+                    .AddExitCode(0, "Command completed successfully")
+                    .AddExitCode(1, "An error occurred while executing the command")
+                    .ConfigureConsole(console);
+            });
+
+            // When
+            app.Run(["--help"]);
+
+            // Then
+            var output = console.Output.NormalizeLineEndings().TrimLines().Trim();
+            return Verifier.Verify(output);
+        }
+
+        [Fact]
+        [Expectation("CommandApp_ExitCodes")]
+        public Task Should_Output_Exit_Codes_Configured_Through_CommandApp()
+        {
+            // Given
+            var console = new TestConsole().Width(int.MaxValue);
+            var app = new CommandApp<DogCommand>();
+            app.WithExitCode(2, "  Dog validation failed  ");
+            app.Configure(configurator =>
+            {
+                configurator.SetApplicationName("myapp")
+                    .AddExitCode(0, "Command completed successfully")
+                    .AddExitCode(2, "Global failure")
+                    .ConfigureConsole(console);
+            });
+
+            // When
+            app.Run(["--help"]);
+
+            // Then
+            var output = console.Output.NormalizeLineEndings().TrimLines().Trim();
+            return Verifier.Verify(output);
+        }
+
+        [Fact]
+        [Expectation("Branch_ExitCodes")]
+        public Task Should_Output_Global_Exit_Codes_On_Branch()
+        {
+            // Given
+            var fixture = new CommandAppTester();
+            fixture.Configure(configurator =>
+            {
+                configurator.SetApplicationName("myapp")
+                    .AddExitCode(0, "Command completed successfully")
+                    .AddExitCode(1, "An error occurred while executing the command");
+
+                configurator.AddBranch<AnimalSettings>("animal", animal =>
+                {
+                    animal.AddCommand<DogCommand>("dog");
+                });
+            });
+
+            // When
+            var result = fixture.Run("animal", "--help");
+
+            // Then
+            return Verifier.Verify(result.Output);
+        }
+
+        [Fact]
         [Expectation("NoDescription")]
         public Task Should_Not_Show_Truncated_Command_Table_If_Commands_Are_Missing_Description()
         {

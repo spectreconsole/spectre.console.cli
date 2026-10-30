@@ -1,0 +1,21 @@
+﻿DESCRIPTION:
+The dog command
+
+USAGE:
+    myapp dog <AGE> [LEGS] [OPTIONS]
+
+ARGUMENTS:
+    <AGE>
+    [LEGS]    The number of legs
+
+OPTIONS:
+    -h, --help            Prints help information
+    -a, --alive           Indicates whether or not the animal is alive
+    -n, --name <VALUE>
+    -g, --good-boy
+
+EXIT CODES:
+    0    Command completed successfully
+    1    An error occurred while executing the command
+    2    Invalid command line arguments were provided
+    3    Dog validation failed

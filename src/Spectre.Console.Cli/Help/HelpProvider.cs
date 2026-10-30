@@ -160,6 +160,7 @@ public class HelpProvider : IHelpProvider
         result.AddRange(GetArguments(model, command));
         result.AddRange(GetOptions(model, command));
         result.AddRange(GetCommands(model, command));
+        result.AddRange(GetExitCodes(model, command));
         result.AddRange(GetFooter(model, command));
 
         return result;
@@ -529,6 +530,71 @@ public class HelpProvider : IHelpProvider
         result.Add(grid);
 
         return result;
+    }
+
+    /// <summary>
+    /// Gets the exit codes section of the help information.
+    /// </summary>
+    /// <param name="model">The command model to write help for.</param>
+    /// <param name="command">The command for which to write help information (optional).</param>
+    /// <returns>An enumerable collection of <see cref="IRenderable"/> objects.</returns>
+    /// <remarks>
+    /// Combines globally defined exit codes with those defined on the command.
+    /// Command-scoped descriptions take precedence over global ones for duplicate codes.
+    /// </remarks>
+    public virtual IEnumerable<IRenderable> GetExitCodes(ICommandModel model, ICommandInfo? command)
+    {
+        var exitCodes = MergeExitCodes(model.ExitCodes, command?.ExitCodes);
+        if (exitCodes.Count == 0)
+        {
+            return Array.Empty<IRenderable>();
+        }
+
+        var result = new List<IRenderable>
+        {
+            NewComposer().LineBreak().Style(_helpStyles?.ExitCodes?.Header ?? Style.Plain, $"{_resources.ExitCodes}:")
+                .LineBreak(),
+        };
+
+        var grid = new Grid();
+        grid.AddColumn(new GridColumn { Padding = new Padding(4, 4), NoWrap = true });
+        grid.AddColumn(new GridColumn { Padding = new Padding(0, 0) });
+
+        foreach (var exitCode in exitCodes)
+        {
+            grid.AddRow(
+                NewComposer().Style(
+                    _helpStyles?.ExitCodes?.Code ?? Style.Plain,
+                    exitCode.Key.ToString(CultureInfo.InvariantCulture)),
+                NewComposer().Text(NormalizeDescription(exitCode.Value)));
+        }
+
+        result.Add(grid);
+
+        return result;
+    }
+
+    private static IReadOnlyDictionary<int, string> MergeExitCodes(
+        IReadOnlyDictionary<int, string>? global,
+        IReadOnlyDictionary<int, string>? command)
+    {
+        var result = new SortedDictionary<int, string>();
+        Add(result, global);
+        Add(result, command);
+        return result;
+
+        static void Add(SortedDictionary<int, string> target, IReadOnlyDictionary<int, string>? source)
+        {
+            if (source == null)
+            {
+                return;
+            }
+
+            foreach (var pair in source)
+            {
+                target[pair.Key] = pair.Value;
+            }
+        }
     }
 
     /// <summary>

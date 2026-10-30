@@ -37,7 +37,7 @@ internal static class CommandModelBuilder
         }
 
         // Create the command model and validate it.
-        var model = new CommandModel(configuration.Settings, result, configuration.Examples);
+        var model = new CommandModel(configuration.Settings, result, configuration.Examples, configuration.ExitCodes);
         CommandModelValidator.Validate(model, configuration.Settings);
 
         return model;

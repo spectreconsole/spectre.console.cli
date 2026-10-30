@@ -14,6 +14,7 @@ internal sealed class CommandInfo : ICommandContainer, ICommandInfo
     public IList<CommandInfo> Children { get; }
     public IList<CommandParameter> Parameters { get; }
     public IList<string[]> Examples { get; }
+    public IReadOnlyDictionary<int, string> ExitCodes { get; }
 
     public bool IsBranch => CommandType == null && Delegate == null;
     IList<CommandInfo> ICommandContainer.Commands => Children;
@@ -45,6 +46,7 @@ internal sealed class CommandInfo : ICommandContainer, ICommandInfo
         Children = new List<CommandInfo>();
         Parameters = new List<CommandParameter>();
         Examples = prototype.Examples;
+        ExitCodes = new Dictionary<int, string>(prototype.ExitCodes);
 
         if (CommandType != null && string.IsNullOrWhiteSpace(Description))
         {

@@ -1,0 +1,13 @@
+﻿USAGE:
+    myapp [OPTIONS] <COMMAND>
+
+OPTIONS:
+    -h, --help    Prints help information
+
+COMMANDS:
+    dog <AGE>    The dog command
+
+EXIT CODES:
+    0    Command completed successfully
+    1    An error occurred while executing the command
+    2    Invalid command line arguments were provided

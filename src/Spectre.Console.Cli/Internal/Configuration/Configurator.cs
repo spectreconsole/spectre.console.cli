@@ -4,10 +4,13 @@ internal sealed class Configurator : IUnsafeConfigurator, IConfigurator, IConfig
 {
     private readonly ITypeRegistrar _registrar;
 
+    private readonly Dictionary<int, string> _exitCodes;
+
     public IList<ConfiguredCommand> Commands { get; }
     public CommandAppSettings Settings { get; }
     public ConfiguredCommand? DefaultCommand { get; private set; }
     public IList<string[]> Examples { get; }
+    public IReadOnlyDictionary<int, string> ExitCodes => _exitCodes;
 
     ICommandAppSettings IConfigurator.Settings => Settings;
 
@@ -18,6 +21,7 @@ internal sealed class Configurator : IUnsafeConfigurator, IConfigurator, IConfig
         Commands = new List<ConfiguredCommand>();
         Settings = new CommandAppSettings(registrar);
         Examples = new List<string[]>();
+        _exitCodes = new Dictionary<int, string>();
     }
 
     public IConfigurator SetHelpProvider(IHelpProvider helpProvider)
@@ -38,6 +42,13 @@ internal sealed class Configurator : IUnsafeConfigurator, IConfigurator, IConfig
     public IConfigurator AddExample(params string[] args)
     {
         Examples.Add(args);
+        return this;
+    }
+
+    public IConfigurator AddExitCode(int exitCode, string description)
+    {
+        var normalized = ExitCodeValidation.ValidateAndNormalize(exitCode, description, _exitCodes, commandName: null);
+        _exitCodes.Add(exitCode, normalized);
         return this;
     }
 

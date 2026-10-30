@@ -115,6 +115,15 @@ namespace Spectre.Console.Cli.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EXIT CODES.
+        /// </summary>
+        internal static string ExitCodes {
+            get {
+                return ResourceManager.GetString("ExitCodes", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to OPTIONS.
         /// </summary>
         internal static string Options {

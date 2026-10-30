@@ -84,6 +84,17 @@ internal class HelpProviderResources
     }
 
     /// <summary>
+    /// Gets the localized string for "EXIT CODES".
+    /// </summary>
+    internal string ExitCodes
+    {
+        get
+        {
+            return _resourceManager.GetString("ExitCodes", _resourceCulture) ?? string.Empty;
+        }
+    }
+
+    /// <summary>
     /// Gets the localized string for "OPTIONS".
     /// </summary>
     internal string Options

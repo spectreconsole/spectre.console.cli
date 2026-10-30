@@ -1,0 +1,16 @@
+﻿USAGE:
+    myapp animal [LEGS] [OPTIONS] <COMMAND>
+
+ARGUMENTS:
+    [LEGS]    The number of legs
+
+OPTIONS:
+    -h, --help     Prints help information
+    -a, --alive    Indicates whether or not the animal is alive
+
+COMMANDS:
+    dog <AGE>    The dog command
+
+EXIT CODES:
+    0    Command completed successfully
+    1    An error occurred while executing the command

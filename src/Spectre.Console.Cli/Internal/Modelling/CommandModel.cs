@@ -7,6 +7,7 @@ internal sealed class CommandModel : ICommandContainer, ICommandModel
     public ParsingMode ParsingMode { get; }
     public IList<CommandInfo> Commands { get; }
     public IList<string[]> Examples { get; }
+    public IReadOnlyDictionary<int, string> ExitCodes { get; }
 
     public CommandInfo? DefaultCommand => Commands.FirstOrDefault(c => c.IsDefaultCommand);
 
@@ -18,13 +19,15 @@ internal sealed class CommandModel : ICommandContainer, ICommandModel
     public CommandModel(
         CommandAppSettings settings,
         IEnumerable<CommandInfo> commands,
-        IEnumerable<string[]> examples)
+        IEnumerable<string[]> examples,
+        IReadOnlyDictionary<int, string> exitCodes)
     {
         ApplicationName = settings.ApplicationName;
         ApplicationVersion = settings.ApplicationVersion;
         ParsingMode = settings.ParsingMode;
         Commands = new List<CommandInfo>(commands);
         Examples = new List<string[]>(examples);
+        ExitCodes = exitCodes.ToDictionary(pair => pair.Key, pair => pair.Value);
     }
 
     /// <summary>

@@ -73,4 +73,27 @@ public class CommandConfigurationException : CommandAppException
     {
         return new CommandConfigurationException($"The required argument '{option.Value}' cannot have a default value.");
     }
+
+    internal static CommandConfigurationException InvalidExitCodeDescription()
+    {
+        return new CommandConfigurationException("The exit code description cannot be null or whitespace.");
+    }
+
+    internal static CommandConfigurationException DuplicateExitCode(
+        int exitCode,
+        string? commandName,
+        bool isDefaultCommand = false)
+    {
+        if (commandName == null)
+        {
+            return new CommandConfigurationException($"The exit code '{exitCode}' has already been defined globally.");
+        }
+
+        if (isDefaultCommand)
+        {
+            return new CommandConfigurationException($"The exit code '{exitCode}' has already been defined for the default command.");
+        }
+
+        return new CommandConfigurationException($"The exit code '{exitCode}' has already been defined for command '{commandName}'.");
+    }
 }
